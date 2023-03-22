@@ -1,0 +1,51 @@
+.maindiv{
+    display: flex;
+    justify-content: center;
+    /* margin-left: 220px !important; */
+    /* flex-direction: column; */
+    /* padding: 10px !important;   */
+    margin-top: 36px;
+    height: 64vh;
+    /* margin-bottom: 24px !important; */
+}
+.profile_box{
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    width: 500px;
+    background: var(--light);
+    border-radius: 25px;
+    padding: 20px;
+}
+.profile_nav{
+    display: flex;  
+    align-items: center;
+    background: var(--dark);
+    border-radius: 25px;
+    height: 110px;
+    width: 460px;
+    color: var(--light) ;
+}
+.div_proimg{
+    margin-left: 30px;
+}
+.proimg{
+    height: 80px;
+    width: 80px;
+
+}
+.profile_nav h2{
+    position: relative;
+    top: 10px;
+    left: 210px;
+}
+.prodetails{
+    margin-top: 40px;
+    margin-left: 20px;
+}
+.samepad{
+    padding: 10px;
+    font-size: 20px;
+    text-transform: capitalize;
+    color: var(--dark);
+}

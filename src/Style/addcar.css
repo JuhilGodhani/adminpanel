@@ -1,0 +1,32 @@
+.choosefile{
+    border: 1px solid rgba(0, 0, 0, 0.23);;
+    border-radius: 4px;
+    padding: 15px 0px 10px 15px;
+    margin-right: -25px;
+}
+
+#addcarunder .choosefile_outside{
+    padding-left: 0px;
+    margin-left: 10px;
+}
+#addcarunder .addcarform{
+    max-width: none !important;
+}
+#addcarunder .selectitem{
+    padding-left: 0px !important;
+}
+#addcarunder .cancelbtn_pos{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.imgcar{
+    display: flex;
+}
+.img_closebtn{
+    position: relative;
+    cursor: pointer;
+    color: red;
+    font-size: 18px;
+}
+

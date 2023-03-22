@@ -1,0 +1,117 @@
+.main_div{
+    /* display: flex; */
+    /* margin-left: 220px !important; */
+    /* flex-direction: column; */
+    /* padding: 10px !important;   */
+    margin-top: 36px;
+    height: 64vh;
+    /* margin-bottom: 24px !important; */
+}
+.table_outside{
+    padding: 24px;
+    background: var(--light);
+    border-radius: 25px;
+}
+.t{
+    /* border: 2px solid black !important; */
+    /* padding: 10px !important; */
+    margin-bottom: 0px !important   ;
+}
+
+.table_outside Table th{
+    /* border-right: 2px solid black !important; */
+    border-bottom: 1px solid var(--grey) !important;
+}
+.modal-content{
+    border: none !important;
+    border-radius: 25px !important;
+}
+.modal{
+background-color: #0000001e !important;
+}
+
+.heder{
+    display: flex;
+    /* margin-top: 64px !important; */
+    justify-content: center;
+    color: #f9a826;
+}
+.name1{
+    text-transform: capitalize;
+}
+.contactmsg{
+    /* height: 20px;
+    width: 150px !important;
+    overflow-x: hidden;
+    overflow-y: scroll; */
+}
+.modal-header .btn-close {
+    position: absolute;
+    right: 30px;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+ form {
+	max-width: 550px;
+	width: 100%;
+	margin-right: auto;
+    margin-bottom: 24px;
+}
+form .form-input {
+    display: flex;
+	align-items: center;
+	height: 36px;
+}
+form .form-input input {
+    flex-grow: 1;
+	padding: 0 16px;
+	height: 100%;
+	border: none;
+    text-transform: lowercase;
+	/* background: var(--grey); */
+    background-color: var(--light);
+	border-radius: 36px 0 0 36px;
+	outline: none;
+	width: 100%;
+	color: var(--dark);
+}
+ form .form-input button {
+	width: 36px;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: var(--blue);
+	color: var(--light);
+	font-size: 18px;
+	border: none;
+	outline: none;
+	border-radius: 0 36px 36px 0;
+	cursor: pointer;
+}
+
+.clihe{
+    cursor: pointer;
+    color: var(--green) !important;
+    /* color: greenyellow !important; */
+}
+.setimg{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.setimg_under{
+    background-color: white;
+    border-radius: 25px;
+    padding: 10px;
+    height: 200px;
+    width: 200px;
+}
+.Description{
+    height: 200px;
+    width: 500px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    text-align: justify;
+}
