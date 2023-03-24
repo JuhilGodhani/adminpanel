@@ -18,7 +18,7 @@ import {
   remove,
   child,
 } from "firebase/database";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import img from "../Images/no data found.jpg";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -37,7 +37,8 @@ import React from "react";
 import { dbs } from "../Admin/userfirebase/userfirebase";
 import { storage } from "../Admin/userfirebase/userfirebase";
 import { dark } from "@mui/material/styles/createPalette";
-
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
 const Caritem_under = () => {
   const [tabledata, settabledata] = useState([]);
   const [modal, setModal] = useState(false);
@@ -147,6 +148,44 @@ const Caritem_under = () => {
     // });
     //=================***impotent***=====================//
   }, []);
+  // const [currentpage, setCurrentPage] = useState(1);
+  // const record = 5;
+  // const lastindex = currentpage * record;
+  // const firstindex = lastindex - record;
+  // const rec = tabledata.slice(firstindex, lastindex);
+  // const npage = Math.ceil(tabledata.length / record);
+  // const number = [...Array(npage + 1).keys()].slice(1);
+
+  // function prepage() {
+  //   if (currentpage !== firstindex) {
+  //     if (currentpage !== 1) {
+  //       setCurrentPage(currentpage - 1);
+  //     }
+  //   }
+  // }
+  // function changepage(id) {
+  //   setCurrentPage(id);
+  // }
+  // function nextpage() {
+  //   if (currentpage !== lastindex) {
+  //     if (currentpage < number.length) setCurrentPage(currentpage + 1);
+  //   }
+  // }
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(tabledata.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = tabledata.slice(startIndex, endIndex);
+
+
+  // const [page, setPage] = useState(1);
+  // const itemsPerPage = 10;
+  // const totalPages = Math.ceil(tabledata.length / itemsPerPage);
+  // const handlePageChange = (event, value) => {
+  //   setPage(value);
+  // };
 
   return (
     <>
@@ -199,32 +238,27 @@ const Caritem_under = () => {
           <Table className="t" hover>
             <thead>
               <tr>
-                {/* <th></th> */}
-                {/* <th>No.</th> */}
-                {/* <th>username</th> */}
+                {/* <th>NO</th> */}
                 <th>Car Image</th>
                 <th>Car Name</th>
-                {/* <th>Email</th> */}
-                {/* <th>Phone Number</th> */}
-                {/* <th>Car Id</th> */}
+
                 <th>Brand</th>
                 <th>Model</th>
                 <th>Car Speed</th>
-                {/* <th>Departure Time</th> */}
-                {/* <th>Other Details</th> */}
-                {/* <th>Payment by</th> */}
+
                 <th>Description</th>
                 <th>Adding Date</th>
                 <th>Price</th>
-                {/* <th>Booking Time</th> */}
+
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {tabledata?.length !== 0 ? (
-                tabledata.map((row, index) => {
+              {currentItems?.length !== 0 ? (
+                currentItems.map((row, index) => {
                   return (
                     <tr key={index + 1}>
+                      {/* <td className="name1">{index+1}</td> */}
                       <td
                         onClick={() => {
                           opendescription(row);
@@ -299,7 +333,18 @@ const Caritem_under = () => {
                 </div>
               )}
             </tbody>
+
+            {/* <select className="selectbutton">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+              <option value="25">25</option>
+            </select> */}
           </Table>
+     
+          <button className="pagebtn" onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>Next</button>
+          <button className="pagebtn" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
         </div>
       </div>
       <Modal
@@ -308,7 +353,7 @@ const Caritem_under = () => {
         // show={this.state.isOpen}
         isOpen={modal}
         toggle={() => setModal(false)}
-        // style={{ width: "30%" }}
+      // style={{ width: "30%" }}
       >
         <ModalHeader
           toggle={() => setModal(false)}

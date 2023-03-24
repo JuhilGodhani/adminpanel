@@ -536,9 +536,7 @@ export class UserBookingFormdata extends React.Component {
                     Order No.
                   </th>
                   <th>Full Name</th>
-                  {/* <th>Email</th> */}
-                  {/* <th>Phone Number</th> */}
-                  {/* <th>Car Id</th> */}
+                
                   <th>Car Name</th>
                   <th>Starting Location</th>
                   <th>Ending Location</th>

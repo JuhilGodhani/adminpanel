@@ -167,15 +167,14 @@ const Bookinghistory_under = () => {
                 <th>Ending Location</th>
                 <th>Departure Date</th>
                 <th>Return Date</th>
-                {/* <th>Departure Time</th> */}
-                {/* <th>Other Details</th> */}
-                {/* <th>Payment by</th> */}
-                {/* <th>Policy click</th> */}
+                
                 <th>Booking Date</th>
                 <th>Total Payment</th>
-                {/* <th>Booking Time</th> */}
+               
                 <th>Status</th>
-                <th>Action</th>
+                <th>Action
+
+                </th>
               </tr>
             </thead>
 

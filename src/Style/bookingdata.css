@@ -74,6 +74,17 @@
 .addicon{
     font-size: 25px;
 }
+.pagebtn{
+    border-radius: 5px;
+    background-color: rgba(0, 128, 255);
+    color: white;
+    width: 10%;
+    height: 40px;
+    float: right;
+    margin: 10px;
+    border: 1px solid black;
+    margin-top: 30px;
+}
 .addbtn{
     display: flex;
     justify-content: center;
