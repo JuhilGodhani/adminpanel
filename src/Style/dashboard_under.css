@@ -257,3 +257,12 @@
 #content main .table-data .todo .todo-list li:last-child {
 	margin-bottom: 0;
 }
+.subnum{
+	display: flex;
+	justify-content: end;
+	font-size: 18px !important;
+}
+.subnum1{
+	/* width: 100% !important; */
+	font-size: 15px !important;
+}

@@ -7,6 +7,10 @@ import { Row, Col, Table } from "reactstrap";
 import "../Style/contactdata.css";
 import Bookinghistory from "../Pages/Bookinghistory";
 import { MdDelete } from "react-icons/md";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
 import {
   ref,
   child,
@@ -183,8 +187,47 @@ const UserRegisterdata = () => {
   const [tabledata, settabledata] = useState([]);
   const [filterdata, setfilterdata] = useState([]);
   const [query, setquery] = useState("");
+  const [usersele, setUsersele] = useState("");
+  const [cardata, setcardata] = useState([]);
 
   const navigate = useNavigate();
+
+  const handleSele = async (event) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    // console.log(value);
+
+    setUsersele(value);
+
+    if (value === "Male") {
+      const scartype = await cardata.filter((row) => {
+        if (row.data.gender === "Male") {
+          return row;
+        }
+      });
+      settabledata(scartype);
+    } else if (value === "Female") {
+      const scartype = await cardata.filter((row) => {
+        if (row.data.gender === "Female") {
+          return row;
+        }
+      });
+      settabledata(scartype);
+    } else if (value === "Other") {
+      const scartype = await cardata.filter((row) => {
+        if (row.data.gender === "Other") {
+          return row;
+        }
+      });
+      settabledata(scartype);
+    } else if (value === "none") {
+      const scartype = await cardata.filter((row) => {
+        setUsersele(null);
+        return row;
+      });
+      settabledata(scartype);
+    }
+  };
 
   const getAllData = (props) => {
     console.log("row", props);
@@ -253,6 +296,7 @@ const UserRegisterdata = () => {
       });
       settabledata(records);
       setfilterdata(records);
+      setcardata(records);
       // this.setState({ tableData: records, filterdatas: records });
       localStorage.setItem("registercountdata", records.length);
     });
@@ -260,22 +304,56 @@ const UserRegisterdata = () => {
   return (
     <>
       <div className="main_div">
-        <form action="#">
-          <div className="form-input">
-            <input
-              type="search"
-              placeholder="Search..."
-              value={query}
-              onChange={(e) => {
-                // this.setState({ query: e.target.value });
-                hendalsearch(e);
-              }}
-            />
-            <button type="submit" className="search-btn">
-              <i className="bx bx-search"></i>
-            </button>
-          </div>
-        </form>
+        <Row
+          style={{
+            marginBottom: "10px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Col>
+            <form action="#" style={{ marginBottom: "0px" }}>
+              <div className="form-input">
+                <input
+                  type="search"
+                  placeholder="Search..."
+                  value={query}
+                  onChange={(e) => {
+                    // this.setState({ query: e.target.value });
+                    hendalsearch(e);
+                  }}
+                />
+                <button type="submit" className="search-btn">
+                  <i className="bx bx-search"></i>
+                </button>
+              </div>
+            </form>
+          </Col>
+          <Col>
+            <FormControl className="selectitem" style={{ width: "60%" }}>
+              <InputLabel
+                id="demo-simple-select-helper-label"
+                style={{ color: "var(--dark)" }}
+              >
+                Gender
+              </InputLabel>
+              <Select
+                className="selectitem cartype"
+                value={usersele}
+                name="Gender"
+                label="Gender"
+                onChange={handleSele}
+                style={{ padding: 27, color: "var(--dark)" }}
+              >
+                <MenuItem value="none">None of these</MenuItem>
+                <MenuItem value="Male">Male</MenuItem>
+                <MenuItem value="Female">Female</MenuItem>
+                <MenuItem value="Other">Other</MenuItem>
+              </Select>
+            </FormControl>
+          </Col>
+          <Col></Col>
+        </Row>
         {/* <h1 className="heder">User Register History</h1> */}
         <div className="table_outside">
           <Table className="t" hover>
@@ -283,6 +361,7 @@ const UserRegisterdata = () => {
               <tr>
                 {/* <th>No.</th> */}
                 {/* <th>username</th> */}
+                <th>Image</th>
                 <th>Name</th>
                 <th>Phone number</th>
                 <th>Gender</th>
@@ -300,6 +379,26 @@ const UserRegisterdata = () => {
                   return (
                     <tr key={index + 1}>
                       {/* <td>{index + 1}</td> */}
+                      {/* <td
+                        // onClick={() => {
+                        //   opendescription(row);
+                        // }}
+                        style={{ cursor: "pointer" }}
+                        scope="row"
+                      >
+                        <img
+                          src={row?.data?.userimg}
+                          style={{
+                            width: 50,
+                            height: 50,
+                            padding: 5,
+                            borderRadius: 25,
+                            border: "2px solid var(--dark)",
+                            objectFit: "cover",
+                            background: "var(--light)",
+                          }}
+                        />
+                      </td> */}
                       <td
                         className="name1"
                         role="button"

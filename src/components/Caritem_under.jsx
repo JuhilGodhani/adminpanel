@@ -18,12 +18,18 @@ import {
   remove,
   child,
 } from "firebase/database";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
+// import { Select, MenuItem } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import img from "../Images/no data found.jpg";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { Label, ModalFooter, Table } from "reactstrap";
 import { ErrorToast, SuccessToast } from "../helper/Toast";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
 import "../Style/contactdata.css";
 import "../Style/bookingdata.css";
 import TextField from "@mui/material/TextField";
@@ -44,6 +50,8 @@ const Caritem_under = () => {
   const [Cardata, setCardata] = useState("");
   const [filterdata, setfilterdata] = useState([]);
   const [query, setquery] = useState("");
+  const [usersele, setUsersele] = useState("");
+  const [cardata, setcardata] = useState([]);
 
   const navigate = useNavigate();
 
@@ -55,6 +63,49 @@ const Caritem_under = () => {
     // console.log("row :>> ", row);
     setModal(true);
     setCardata(row.data);
+  };
+  const handleSele = async (event) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    // console.log(value);
+
+    setUsersele(value);
+
+    if (value === "Sedan") {
+      const scartype = await cardata.filter((row) => {
+        if (row.data.cartype === "Sedan") {
+          return row;
+        }
+      });
+      settabledata(scartype);
+    } else if (value === "SUV") {
+      const scartype = await cardata.filter((row) => {
+        if (row.data.cartype === "SUV") {
+          return row;
+        }
+      });
+      settabledata(scartype);
+    } else if (value === "Coupe") {
+      const scartype = await cardata.filter((row) => {
+        if (row.data.cartype === "Coupe") {
+          return row;
+        }
+      });
+      settabledata(scartype);
+    } else if (value === "PickupTrucks") {
+      const scartype = await cardata.filter((row) => {
+        if (row.data.cartype === "PickupTrucks") {
+          return row;
+        }
+      });
+      settabledata(scartype);
+    } else if (value === "none") {
+      const scartype = await cardata.filter((row) => {
+        setUsersele(null);
+        return row;
+      });
+      settabledata(scartype);
+    }
   };
 
   const dele = (row) => {
@@ -133,6 +184,7 @@ const Caritem_under = () => {
         records.push({ key: keyName, data: data });
       });
       // console.log("records :>> ", records);
+      setcardata(records);
       settabledata(records);
       setfilterdata(records);
     });
@@ -151,9 +203,15 @@ const Caritem_under = () => {
   return (
     <>
       <div className="main_div bokdat">
-        <Row>
+        <Row
+          style={{
+            marginBottom: "10px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <Col>
-            <form action="#">
+            <form action="#" style={{ marginBottom: "0px" }}>
               <div className="form-input">
                 <input
                   type="search"
@@ -178,6 +236,30 @@ const Caritem_under = () => {
           {/* <Row className="d-flex align-items-center justify-content-center">
               <Col lg="10"> */}
           {/* <h1 className="heder hederbd">User Booking Information</h1> */}
+          <Col>
+            <FormControl className="selectitem" style={{ width: "60%" }}>
+              <InputLabel
+                id="demo-simple-select-helper-label"
+                style={{ color: "var(--dark)" }}
+              >
+                Car Type
+              </InputLabel>
+              <Select
+                className="selectitem cartype"
+                value={usersele}
+                name="cartype"
+                label="Cartype"
+                onChange={handleSele}
+                style={{ padding: 27, color: "var(--dark)" }}
+              >
+                <MenuItem value="none">None of these</MenuItem>
+                <MenuItem value="Sedan">Sedan</MenuItem>
+                <MenuItem value="SUV">SUV</MenuItem>
+                <MenuItem value="Coupe">Coupe</MenuItem>
+                <MenuItem value="PickupTrucks">Pickup Trucks</MenuItem>
+              </Select>
+            </FormControl>
+          </Col>
           <Col>
             <div className="abtn">
               <button className="addbtn" onClick={addcar}>

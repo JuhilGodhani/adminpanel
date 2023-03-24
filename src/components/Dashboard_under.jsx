@@ -4,6 +4,8 @@ import { TbBrandBooking } from "react-icons/tb";
 import { MdContactMail } from "react-icons/md";
 import { dbs } from "../Admin/userfirebase/userfirebase";
 import { BsCurrencyRupee } from "react-icons/bs";
+import { BsCarFront } from "react-icons/bs";
+import { SlArrowUp } from "react-icons/sl";
 import {
   ref,
   child,
@@ -30,6 +32,13 @@ import { Label, ModalFooter, Table } from "reactstrap";
 import { width } from "@mui/system";
 import moment from "moment";
 
+const cartype = {
+  Sedan: "",
+  SUV: "",
+  Coupe: "",
+  PickupTrucks: "",
+};
+
 const Dashboard_under = () => {
   const [Usercon, setUsercon] = useState("");
   const [Uservis, setUservis] = useState("");
@@ -38,6 +47,11 @@ const Dashboard_under = () => {
   const [Tabledata, setTabledata] = useState([]);
   const [Filterdatas, setFilterdatas] = useState([]);
   const [Query, setQuery] = useState("");
+  const [Cartype, setCartype] = useState(cartype);
+  const [Sedancar, setSedancar] = useState("");
+  const [SUVcar, setSUVcar] = useState("");
+  const [Coupecar, setCoupecar] = useState("");
+  const [PickupTruckscar, setPickupTruckscar] = useState("");
 
   useEffect(() => {
     const dbRef = ref(dbs, "ContactDatas");
@@ -51,7 +65,7 @@ const Dashboard_under = () => {
       setUsercon(records.length);
     });
 
-    const dbRef1 = ref(dbs, "UserRegisterData");
+    const dbRef1 = ref(dbs, "cardata");
     onValue(dbRef1, (snapshot) => {
       let records = [];
       snapshot.forEach((childSnapShot) => {
@@ -59,6 +73,30 @@ const Dashboard_under = () => {
         let data = childSnapShot.val();
         records.push({ key: keyName, data: data });
       });
+      const Sedan = records.filter((row) => {
+        if (row.data.cartype === "Sedan") {
+          return row;
+        }
+      });
+      const SUV = records.filter((row) => {
+        if (row.data.cartype === "SUV") {
+          return row;
+        }
+      });
+      const Coupe = records.filter((row) => {
+        if (row.data.cartype === "Coupe") {
+          return row;
+        }
+      });
+      const PickupTrucks = records.filter((row) => {
+        if (row.data.cartype === "PickupTrucks") {
+          return row;
+        }
+      });
+      setSedancar(Sedan.length);
+      setSUVcar(SUV.length);
+      setCoupecar(Coupe.length);
+      setPickupTruckscar(PickupTrucks.length);
       setUservis(records.length);
     });
 
@@ -77,7 +115,7 @@ const Dashboard_under = () => {
         }
       });
       setTabledata(data);
-      setFilterdatas(records);
+      setFilterdatas(data);
       setUserbook(records.length);
     });
   }, []);
@@ -145,12 +183,56 @@ const Dashboard_under = () => {
     //   </div> */}
 
       <ul className="box-info">
-        <li>
+        <li style={{ gap: "10px" }}>
           {/* <i className="bx bxs-calendar-check"></i> */}
-          <i className="bx bxs-group"></i>
+          <i className="bx" style={{ width: "30%" }}>
+            <BsCarFront />
+          </i>
           <span className="text">
             <h3>{Uservis}</h3>
-            <p>Visitors</p>
+            <p>Cars</p>
+          </span>
+          <span style={{ width: "5%" }}>
+            <SlArrowUp
+              style={{
+                transform: "rotate(270deg)",
+                fontSize: "200%",
+              }}
+            />
+          </span>
+          <span style={{ width: "70%" }}>
+            <Row>
+              <Col lg="4">
+                <h3 className="subnum">{Sedancar}</h3>
+              </Col>
+              <Col lg="8">
+                <span className="subnum1">Sedan</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg="4">
+                <h3 className="subnum">{SUVcar}</h3>
+              </Col>
+              <Col lg="8">
+                <span className="subnum1">SUV</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg="4">
+                <h3 className="subnum">{Coupecar}</h3>
+              </Col>
+              <Col lg="8">
+                <span className="subnum1">Coupe</span>
+              </Col>
+            </Row>
+            <Row>
+              <Col lg="4">
+                <h3 className="subnum">{PickupTruckscar}</h3>
+              </Col>
+              <Col lg="8">
+                <span className="subnum1">Pickup Trucks</span>
+              </Col>
+            </Row>
           </span>
         </li>
         <li>
@@ -203,10 +285,16 @@ const Dashboard_under = () => {
               <tr>
                 {/* <th></th> */}
                 {/* <th>No.</th> */}
-                <th style={{ textAlign: "center" }}>Car Image</th>
                 <th
                   style={{
+                    textAlign: "center",
                     width: Tabledata?.length === 0 ? "145px" : "",
+                  }}
+                >
+                  Car Image
+                </th>
+                <th
+                  style={{
                     textAlign: "center",
                   }}
                 >

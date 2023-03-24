@@ -30,6 +30,8 @@ li {
 	--orange: #FD7238;
 	--light-orange: #FFE0D3;
 	--green : #3C91E6;
+	--lighgrey:rgba(0, 0, 0, 0.23);
+	--lightblue: #399afb;
 }
 
 html {
@@ -41,6 +43,7 @@ body.dark {
 	--grey: #060714;
 	--dark: #FBFBFB;
 	--green : greenyellow;
+	--lighgrey: #FBFBFB;
 }
 
 body {

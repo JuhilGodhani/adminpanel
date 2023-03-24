@@ -38,6 +38,7 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import { IoMdAdd } from "react-icons/io";
 import { AiOutlineRollback } from "react-icons/ai";
+import { TbLoader2 } from "react-icons/tb";
 
 // import { storage } from "./firebase";
 import { v4 } from "uuid";
@@ -71,6 +72,7 @@ function Addcar_under() {
   const [Progress, setProgress] = useState(null);
   const [errors, setErrors] = useState({});
   const [IsSubmint, setIsSubmint] = useState(false);
+  const [spinloder, setspinloder] = useState(false);
   const [Url, setUrl] = useState("");
   const navigate = useNavigate();
 
@@ -173,6 +175,7 @@ function Addcar_under() {
     }
 
     if (imageUpload == null) return;
+    setspinloder(true);
     const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
     await uploadBytes(imageRef, imageUpload).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
@@ -509,8 +512,16 @@ function Addcar_under() {
                     <Col>
                       <button
                         className="addbtn"
+                        style={{
+                          gap: "5px",
+                        }}
                         disabled={Progress !== null && Progress < 100}
                       >
+                        {spinloder === true ? (
+                          <TbLoader2 className="icon-spin" />
+                        ) : (
+                          ""
+                        )}
                         Submit
                       </button>
                     </Col>

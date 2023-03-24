@@ -1,12 +1,13 @@
 import React from "react";
 import { dbs } from "../Admin/userfirebase/userfirebase";
-
+import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 // import { ref, onValue } from "firebase/database";
-import { Row, Col, Table } from "reactstrap";
+// import { Row, Col, Table } from "reactstrap";
 import "../Style/contactdata.css";
-
 import EditUserContact from "./EditUserContact";
 import { MdDelete } from "react-icons/md";
+import { ImReply } from "react-icons/im";
 import {
   ref,
   child,
@@ -16,6 +17,17 @@ import {
   update,
   remove,
 } from "firebase/database";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Row,
+  Col,
+  Table,
+  Form,
+  FormGroup,
+  Input,
+} from "reactstrap";
 import img from "../Images/no data found.jpg";
 
 import { ErrorToast, SuccessToast } from "../helper/Toast";
@@ -28,6 +40,10 @@ export class ContactDatas extends React.Component {
       tableData: [],
       filterdatas: [],
       query: "",
+      modal: false,
+      modname: "",
+      modmsg: "",
+      modemail: "",
     };
   }
 
@@ -53,6 +69,15 @@ export class ContactDatas extends React.Component {
     });
   }
 
+  opendata(row) {
+    this.setState({
+      modal: true,
+      modname: row.data.yourName,
+      modmsg: row.data.message,
+      modemail: row.data.email,
+    });
+  }
+
   hendalsearch(e) {
     const getsearch = e.target.value;
     // console.log("juhil", getsearch);
@@ -64,7 +89,7 @@ export class ContactDatas extends React.Component {
         return (
           item.data.yourName.toLowerCase().includes(getsearch) ||
           item.data.email.toLowerCase().includes(getsearch) ||
-          item.data.message.toLowerCase().includes(getsearch) ||
+          // item.data.message.toLowerCase().includes(getsearch) ||
           item.data.date.toLowerCase().includes(getsearch) ||
           item.data.time.toLowerCase().includes(getsearch)
         );
@@ -136,7 +161,16 @@ export class ContactDatas extends React.Component {
                         {/* <td>{row.data.key}</td> */}
                         <td className="name1">{row.data.yourName}</td>
                         <td>{row.data.email}</td>
-                        <td className="name1 contactmsg">{row.data.message}</td>
+                        <td
+                          className="name1 clihe"
+                          record={row.data}
+                          role="button"
+                          onClick={() => {
+                            this.opendata(row);
+                          }}
+                        >
+                          Click here
+                        </td>
                         <td className="name1">{row.data.date}</td>
                         <td className="name1">{row.data.time}</td>
                         {/* <td>
@@ -147,6 +181,20 @@ export class ContactDatas extends React.Component {
                     </td> */}
                         <td>
                           <Row className="d-flex justify-content-center">
+                            <Col lg="4">
+                              <Link to="/reply">
+                                <ImReply
+                                  // record={row.data}
+                                  className="replybtn"
+                                  onClick={() => {
+                                    localStorage.setItem(
+                                      "contactmsg",
+                                      JSON.stringify(row.data)
+                                    );
+                                  }}
+                                />
+                              </Link>
+                            </Col>
                             <Col lg="4">
                               <div className=" del">
                                 <MdDelete
@@ -171,6 +219,52 @@ export class ContactDatas extends React.Component {
             </Table>
           </div>
         </div>
+        <Modal
+          centered
+          size="lg"
+          // show={this.state.isOpen}
+          isOpen={this.state.modal}
+          toggle={() => this.setState({ modal: false })}
+          // style={{ width: "30%" }}
+        >
+          <ModalHeader
+            toggle={() => this.setState({ modal: false })}
+            className="mt-1 d-flex justify-content-center updatemodalfooter"
+          >
+            <h1 className="titles">{this.state.modname}'s Message</h1>
+          </ModalHeader>
+          <ModalBody>
+            <Row className="d-flex justify-content-center ">
+              <Row>
+                <div className="detailbox">
+                  <Row className="alltxt">
+                    <Col lg="2" className="sameque">
+                      Email
+                    </Col>
+                    <Col lg="1" className="sameque">
+                      :
+                    </Col>
+                    <Col lg="8" style={{ textTransform: "lowercase" }}>
+                      {this.state.modemail}
+                    </Col>
+                  </Row>
+
+                  <Row className="alltxt">
+                    <Col lg="2" className="sameque">
+                      Message
+                    </Col>
+                    <Col lg="1" className="sameque">
+                      :
+                    </Col>
+                    <Col lg="8" className="sameans contmsg">
+                      {this.state.modmsg}
+                    </Col>
+                  </Row>
+                </div>
+              </Row>
+            </Row>
+          </ModalBody>
+        </Modal>
       </>
     );
   }

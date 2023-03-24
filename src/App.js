@@ -16,11 +16,11 @@ import Caritem from "./Pages/Caritem";
 import Blogs from "./Pages/Blogs";
 import Addblogs from "./Pages/Addblogs";
 import Editblogs from "./Pages/Editblogs";
+import Reply from "./Pages/Reply";
 
 function App() {
   return (
-
-<AdminAuthContextProvider>
+    <AdminAuthContextProvider>
       {/* <Loginpage /> */}
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
@@ -38,6 +38,7 @@ function App() {
         <Route path="/blogs" element={<Blogs />}></Route>
         <Route path="/addblogs" element={<Addblogs />}></Route>
         <Route path="/editblogs" element={<Editblogs />}></Route>
+        <Route path="/reply" element={<Reply />}></Route>
         {/* <Route path="/bookinghistory" element={<UserRegisterdata />}></Route> */}
       </Routes>
     </AdminAuthContextProvider>

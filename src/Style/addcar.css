@@ -30,3 +30,45 @@
     font-size: 18px;
 }
 
+.conmsg{
+    height: 100px;
+    width: 70% !important;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background-color: var(--grey);
+    border-radius: 10px;
+    padding-top: 10px;
+}
+.conmsgcolor{
+    color: var(--dark);
+}
+.css-1sqnrkk-MuiInputBase-input-MuiOutlinedInput-input{
+    color: var(--dark) !important;
+}
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline{
+    border-color: var(--lighgrey) !important;
+}
+.sendbtn{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    width: 10%;
+    border-radius: 25px;
+    gap: 5px;
+    cursor: pointer;
+    background-color: var(--lightblue);
+    color: var(--light);
+    padding: 10px;
+
+}
+.icon-spin {
+    animation: spin 1s infinite linear;
+  }
+  @keyframes spin {
+    from {
+      transform: scale(1) rotate(0deg);
+    }
+    to {
+      transform: scale(1) rotate(360deg);
+    }
+  }

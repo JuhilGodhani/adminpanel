@@ -40,7 +40,7 @@ import TextField from "@mui/material/TextField";
 import { IoMdAdd } from "react-icons/io";
 import { AiOutlineRollback } from "react-icons/ai";
 import { AiFillCloseCircle } from "react-icons/ai";
-
+import { TbLoader2 } from "react-icons/tb";
 // import { storage } from "./firebase";
 import { v4 } from "uuid";
 
@@ -73,6 +73,7 @@ const Editcardata_under = () => {
   const [errors, setErrors] = useState({});
   const [IsSubmint, setIsSubmint] = useState(false);
   const [Url, setUrl] = useState("");
+  const [spinloder, setspinloder] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -176,6 +177,7 @@ const Editcardata_under = () => {
 
     if (Editcardata?.carimg === "") {
       if (imageUpload == null) return;
+      setspinloder(true);
       const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
       await uploadBytes(imageRef, imageUpload).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
@@ -583,8 +585,16 @@ const Editcardata_under = () => {
                     <Col>
                       <button
                         className="addbtn"
+                        style={{
+                          gap: "5px",
+                        }}
                         disabled={Progress !== null && Progress < 100}
                       >
+                        {spinloder === true ? (
+                          <TbLoader2 className="icon-spin" />
+                        ) : (
+                          ""
+                        )}
                         Update
                       </button>
                     </Col>

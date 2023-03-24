@@ -40,7 +40,7 @@ import TextField from "@mui/material/TextField";
 import { IoMdAdd } from "react-icons/io";
 import { AiOutlineRollback } from "react-icons/ai";
 import { AiFillCloseCircle } from "react-icons/ai";
-
+import { TbLoader2 } from "react-icons/tb";
 // import { storage } from "./firebase";
 import { v4 } from "uuid";
 
@@ -56,6 +56,7 @@ const Editblogs_under = () => {
   };
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
+  const [spinloder, setspinloder] = useState(false);
 
   const imagesListRef = ref(storage, "images/");
 
@@ -136,6 +137,8 @@ const Editblogs_under = () => {
     }
     if (Editblogdata?.carimg === "") {
       if (imageUpload == null) return;
+      setspinloder(true);
+
       const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
       await uploadBytes(imageRef, imageUpload).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
@@ -343,8 +346,16 @@ const Editblogs_under = () => {
                     <Col>
                       <button
                         className="addbtn"
+                        style={{
+                          gap: "5px",
+                        }}
                         disabled={Progress !== null && Progress < 100}
                       >
+                        {spinloder === true ? (
+                          <TbLoader2 className="icon-spin" />
+                        ) : (
+                          ""
+                        )}
                         Update
                       </button>
                     </Col>

@@ -115,3 +115,26 @@ form .form-input input {
     overflow-y: scroll;
     text-align: justify;
 }
+.replybtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    padding: 5px;
+    cursor: pointer;
+    color: rgba(0, 128, 255);
+}
+.replybtn:hover{
+    border-radius: 5px;
+    color: white;
+    background-color: rgb(0, 128, 255,0.582);
+}
+.contmsg{
+    margin-left: 0px;
+    /* padding: 10px; */
+    height: 150px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}

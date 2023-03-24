@@ -29,7 +29,10 @@ import {
 } from "reactstrap";
 import EditUserContact from "./EditUserContact";
 import img from "../Images/no data found.jpg";
-
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
 import { ErrorToast, SuccessToast } from "../helper/Toast";
 import moment from "moment/moment";
 
@@ -39,6 +42,8 @@ export class UserBookingFormdata extends React.Component {
     this.state = {
       tableData: [],
       filterdatas: [],
+      usersele: "",
+      cardata: [],
       query: "",
       modal: false,
       modal1: false,
@@ -58,6 +63,44 @@ export class UserBookingFormdata extends React.Component {
 
       // },
     };
+  }
+
+  handleSele(event) {
+    let name = event.target.name;
+    let value = event.target.value;
+    // console.log(value);
+
+    this.setState({ usersele: value });
+
+    if (value === "Pending") {
+      const scartype = this.state.cardata.filter((row) => {
+        if (row.data.status === "Pending") {
+          return row;
+        }
+      });
+      this.setState({ tableData: scartype });
+      // settabledata(scartype);
+    } else if (value === "Completed") {
+      const scartype = this.state.cardata.filter((row) => {
+        if (row.data.status === "Completed") {
+          return row;
+        }
+      });
+      this.setState({ tableData: scartype });
+    } else if (value === "Process") {
+      const scartype = this.state.cardata.filter((row) => {
+        if (row.data.status === "Process") {
+          return row;
+        }
+      });
+      this.setState({ tableData: scartype });
+    } else if (value === "none") {
+      const scartype = this.state.cardata.filter((row) => {
+        this.setState({ usersele: "" });
+        return row;
+      });
+      this.setState({ tableData: scartype });
+    }
   }
 
   getAllData(props) {
@@ -287,7 +330,11 @@ export class UserBookingFormdata extends React.Component {
         let data = childSnapShot.val();
         records.push({ key: keyName, data: data });
       });
-      this.setState({ tableData: records, filterdatas: records });
+      this.setState({
+        tableData: records,
+        filterdatas: records,
+        cardata: records,
+      });
 
       // console.log(records);
       localStorage.setItem("bookingcount", records.length);
@@ -298,9 +345,15 @@ export class UserBookingFormdata extends React.Component {
     return (
       <>
         <div className="main_div bokdat">
-          <Row>
+          <Row
+            style={{
+              marginBottom: "10px",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <Col>
-              <form action="#">
+              <form action="#" style={{ marginBottom: "0px" }}>
                 <div className="form-input">
                   <input
                     type="search"
@@ -317,6 +370,32 @@ export class UserBookingFormdata extends React.Component {
                 </div>
               </form>
             </Col>
+            <Col>
+              <FormControl className="selectitem" style={{ width: "50%" }}>
+                <InputLabel
+                  id="demo-simple-select-helper-label"
+                  style={{ color: "var(--dark)" }}
+                >
+                  Status
+                </InputLabel>
+                <Select
+                  className="selectitem cartype"
+                  value={this.state.usersele}
+                  name="status"
+                  label="status"
+                  onChange={(e) => {
+                    this.handleSele(e);
+                  }}
+                  style={{ padding: 27, color: "var(--dark)" }}
+                >
+                  <MenuItem value="none">None of these</MenuItem>
+                  <MenuItem value="Pending">Pending</MenuItem>
+                  <MenuItem value="Completed">Completed</MenuItem>
+                  <MenuItem value="Process">Process</MenuItem>
+                </Select>
+              </FormControl>
+            </Col>
+            <Col></Col>
             {/* <Row className="d-flex align-items-center justify-content-center">
               <Col lg="10"> */}
             {/* <h1 className="heder hederbd">User Booking Information</h1> */}
@@ -668,7 +747,7 @@ export class UserBookingFormdata extends React.Component {
                   </Row>
                   <Row className="alltxt">
                     <Col lg="4" className="sameque">
-                      Cae Name
+                      Car Name
                     </Col>
                     <Col lg="1" className="sameque">
                       :
@@ -679,7 +758,7 @@ export class UserBookingFormdata extends React.Component {
                   </Row>
                   <Row className="alltxt">
                     <Col lg="4" className="sameque">
-                      Cae Model
+                      Car Model
                     </Col>
                     <Col lg="1" className="sameque">
                       :
@@ -690,7 +769,7 @@ export class UserBookingFormdata extends React.Component {
                   </Row>
                   <Row className="alltxt">
                     <Col lg="4" className="sameque">
-                      Cae Type
+                      Car Type
                     </Col>
                     <Col lg="1" className="sameque">
                       :

@@ -6,6 +6,10 @@ import { MdContactMail } from "react-icons/md";
 import { dbs } from "../Admin/userfirebase/userfirebase";
 import { ErrorToast, SuccessToast } from "../helper/Toast";
 import { BsCurrencyRupee } from "react-icons/bs";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
 import {
   ref,
   child,
@@ -35,8 +39,47 @@ const Bookinghistory_under = () => {
   const [tabledata, settabledata] = useState([]);
   const [filterdata, setfilterdata] = useState([]);
   const [query, setquery] = useState("");
+  const [usersele, setUsersele] = useState("");
+  const [cardata, setcardata] = useState([]);
 
   const navigate = useNavigate();
+
+  const handleSele = async (event) => {
+    let name = event.target.name;
+    let value = event.target.value;
+    // console.log(value);
+
+    setUsersele(value);
+
+    if (value === "Pending") {
+      const scartype = await cardata.filter((row) => {
+        if (row.data.status === "Pending") {
+          return row;
+        }
+      });
+      settabledata(scartype);
+    } else if (value === "Completed") {
+      const scartype = await cardata.filter((row) => {
+        if (row.data.status === "Completed") {
+          return row;
+        }
+      });
+      settabledata(scartype);
+    } else if (value === "Process") {
+      const scartype = await cardata.filter((row) => {
+        if (row.data.status === "Process") {
+          return row;
+        }
+      });
+      settabledata(scartype);
+    } else if (value === "None") {
+      const scartype = await cardata.filter((row) => {
+        setUsersele(null);
+        return row;
+      });
+      settabledata(scartype);
+    }
+  };
 
   const getAllData = (props) => {
     console.log("row", props);
@@ -125,6 +168,7 @@ const Bookinghistory_under = () => {
         });
         settabledata(data);
         setfilterdata(data);
+        setcardata(data);
         // console.log("ddfkm", data);
         // console.log("email :>> ", data);
       });
@@ -134,22 +178,56 @@ const Bookinghistory_under = () => {
   return (
     <>
       <div className="main_div">
-        <form action="#">
-          <div className="form-input">
-            <input
-              type="search"
-              placeholder="Search..."
-              value={query}
-              onChange={(e) => {
-                // this.setState({ query: e.target.value });
-                hendalsearch(e);
-              }}
-            />
-            <button type="submit" className="search-btn">
-              <i className="bx bx-search"></i>
-            </button>
-          </div>
-        </form>
+        <Row
+          style={{
+            marginBottom: "10px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Col>
+            <form action="#" style={{ marginBottom: "0px" }}>
+              <div className="form-input">
+                <input
+                  type="search"
+                  placeholder="Search..."
+                  value={query}
+                  onChange={(e) => {
+                    // this.setState({ query: e.target.value });
+                    hendalsearch(e);
+                  }}
+                />
+                <button type="submit" className="search-btn">
+                  <i className="bx bx-search"></i>
+                </button>
+              </div>
+            </form>
+          </Col>
+          <Col>
+            <FormControl className="selectitem" style={{ width: "60%" }}>
+              <InputLabel
+                id="demo-simple-select-helper-label"
+                style={{ color: "var(--dark)" }}
+              >
+                Status
+              </InputLabel>
+              <Select
+                className="selectitem cartype"
+                value={usersele}
+                name="status"
+                label="status"
+                onChange={handleSele}
+                style={{ padding: 27, color: "var(--dark)" }}
+              >
+                <MenuItem value="None">None of these</MenuItem>
+                <MenuItem value="Pending">Pending</MenuItem>
+                <MenuItem value="Completed">Completed</MenuItem>
+                <MenuItem value="Process">Process</MenuItem>
+              </Select>
+            </FormControl>
+          </Col>
+          <Col></Col>
+        </Row>
         {/* <h1 className="heder">User Register History</h1> */}
         <div className="table_outside">
           <Table className="t" hover>
