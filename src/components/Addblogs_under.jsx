@@ -56,7 +56,7 @@ const Addblogs_under = () => {
   };
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
-
+  const [Bookingid, setBookingid] = useState("");
   const imagesListRef = ref(storage, "images/");
 
   const [Addcardata, setAddcardata] = useState(data);
@@ -143,8 +143,9 @@ const Addblogs_under = () => {
         // setImageUrls((prev) => [...prev, url]);
         // setUrl(url);
         // console.log("url :>> ", url);
+
         let body = {
-          id: currenttime,
+          id: Bookingid,
           data: {
             title: Addcardata?.title,
             author: Addcardata?.author,
@@ -162,9 +163,11 @@ const Addblogs_under = () => {
         get(child(dbref, address)).then((snapshot) => {
           if (snapshot.exists()) {
             ErrorToast("Please enter all details...");
+            console.log("uplode nai thatu :>> ");
           } else {
             set(REF(dbs, address), record.data);
             SuccessToast("Blog Added Successfully");
+            console.log("uplode  thai 6 :>> ");
             setAddcardata(data);
             setImageUpload(null);
             navigate("/blogs");
@@ -184,6 +187,16 @@ const Addblogs_under = () => {
     //   });
     // });
     //=================***impotent***=====================//
+    const dbRef = REF(dbs, "blogs");
+    onValue(dbRef, (snapshot) => {
+      let records = [];
+      snapshot.forEach((childSnapShot) => {
+        let keyName = childSnapShot.key;
+        let data = childSnapShot.val();
+        records.push({ key: keyName, data: data });
+      });
+      setBookingid(records.length + 1);
+    });
   }, []);
 
   return (

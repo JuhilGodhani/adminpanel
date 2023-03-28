@@ -109,7 +109,7 @@ const Bookinghistory_under = () => {
 
     if (getsearch) {
       // const getsearch = e.target.value;
-      const searchdata = tabledata.filter((item) => {
+      const searchdata = filterdata.filter((item) => {
         // console.log("item", item);
         return (
           item.data.firstname.toLowerCase().includes(getsearch) ||
@@ -120,6 +120,7 @@ const Bookinghistory_under = () => {
           item.data.pickuplocation.toLowerCase().includes(getsearch) ||
           item.data.deliverydate.toLowerCase().includes(getsearch) ||
           // item.data.journeytime.toLowerCase().includes(getsearch) ||
+          String(item?.data?.carprice)?.includes(getsearch) ||
           item.data.date.toLowerCase().includes(getsearch) ||
           item.data.carname.toLowerCase().includes(getsearch) ||
           item.data.checkboxclick.toLowerCase().includes(getsearch) ||

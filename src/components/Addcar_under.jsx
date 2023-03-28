@@ -64,6 +64,7 @@ function Addcar_under() {
   };
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
+  const [Bookingid, setBookingid] = useState("");
 
   const imagesListRef = ref(storage, "images/");
 
@@ -182,8 +183,9 @@ function Addcar_under() {
         // setImageUrls((prev) => [...prev, url]);
         // setUrl(url);
         // console.log("url :>> ", url);
+
         let body = {
-          id: currenttime,
+          id: Bookingid,
           data: {
             carname: Addcardata?.carname,
             carmodel: Addcardata?.carmodel,
@@ -231,6 +233,16 @@ function Addcar_under() {
     //   });
     // });
     //=================***impotent***=====================//
+    const dbRef = REF(dbs, "cardata");
+    onValue(dbRef, (snapshot) => {
+      let records = [];
+      snapshot.forEach((childSnapShot) => {
+        let keyName = childSnapShot.key;
+        let data = childSnapShot.val();
+        records.push({ key: keyName, data: data });
+      });
+      setBookingid(records.length + 1);
+    });
   }, []);
 
   return (

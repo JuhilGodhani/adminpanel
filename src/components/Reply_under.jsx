@@ -44,6 +44,7 @@ import emailjs from "emailjs-com";
 
 // import { storage } from "./firebase";
 import { v4 } from "uuid";
+import { TbLoader2 } from "react-icons/tb";
 
 import React from "react";
 import { dbs } from "../Admin/userfirebase/userfirebase";
@@ -58,6 +59,7 @@ const Reply_under = () => {
   const [replymsg, setreplymsg] = useState([]);
   const [Sengmessage, setSengmessage] = useState(msg);
   const [errors, setErrors] = useState({});
+  const [spinloder, setspinloder] = useState(false);
 
   const navigate = useNavigate();
 
@@ -89,8 +91,10 @@ const Reply_under = () => {
     const toname = replymsg?.yourName;
     const usermsg = replymsg?.message;
     const message = Sengmessage?.message;
+    setspinloder(true);
 
     emailjs
+
       .send(
         "service_fzhaljq",
         "template_k2otji9",
@@ -194,6 +198,11 @@ const Reply_under = () => {
             >
               <div style={{ display: "flex", justifyContent: "end" }}>
                 <div className="sendbtn" onClick={handleSubmit}>
+                  {spinloder === true ? (
+                    <TbLoader2 className="icon-spin" />
+                  ) : (
+                    ""
+                  )}
                   Send <BsFillSendFill />
                 </div>
               </div>

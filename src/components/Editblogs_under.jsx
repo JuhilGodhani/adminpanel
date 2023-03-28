@@ -57,7 +57,7 @@ const Editblogs_under = () => {
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
   const [spinloder, setspinloder] = useState(false);
-
+  const [Editblogid, setEditblogid] = useState("");
   const imagesListRef = ref(storage, "images/");
 
   const [Editblogdata, setEditblogdata] = useState(data);
@@ -146,7 +146,7 @@ const Editblogs_under = () => {
           // setUrl(url);
           // console.log("url :>> ", url);
           let body = {
-            id: Editblogdata?.time,
+            id: Editblogid,
             data: {
               title: Editblogdata?.title,
               author: Editblogdata?.author,
@@ -176,7 +176,7 @@ const Editblogs_under = () => {
       });
     } else {
       let body = {
-        id: Editblogdata?.time,
+        id: Editblogid,
         data: {
           title: Editblogdata?.title,
           author: Editblogdata?.author,
@@ -207,6 +207,7 @@ const Editblogs_under = () => {
 
   useEffect(() => {
     setEditblogdata(location.state.row.data);
+    setEditblogid(location.state.row.key);
   }, []);
 
   return (

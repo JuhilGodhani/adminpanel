@@ -64,7 +64,7 @@ const Editcardata_under = () => {
   };
   const [imageUpload, setImageUpload] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
-
+  const [Editcarid, setEditcarid] = useState("");
   const imagesListRef = ref(storage, "images/");
 
   const [Editcardata, setEditcardata] = useState(data);
@@ -184,9 +184,12 @@ const Editcardata_under = () => {
           // setImageUrls((prev) => [...prev, url]);
           // setUrl(url);
           // console.log("url :>> ", url);
+          //==========================================================
+
+          //==========================================================
 
           let body = {
-            id: Editcardata?.time,
+            id: Editcarid,
             data: {
               carname: Editcardata?.carname,
               carmodel: Editcardata?.carmodel,
@@ -224,7 +227,7 @@ const Editcardata_under = () => {
       });
     } else {
       let body = {
-        id: Editcardata?.time,
+        id: Editcarid,
         data: {
           carname: Editcardata?.carname,
           carmodel: Editcardata?.carmodel,
@@ -272,8 +275,9 @@ const Editcardata_under = () => {
     // });
     //=================***impotent***=====================//
 
-    console.log("location :>> ", location.state.row.data);
+    console.log("location :>> ", location.state.row.key);
     setEditcardata(location.state.row.data);
+    setEditcarid(location.state.row.key);
   }, []);
 
   return (

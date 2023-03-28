@@ -49,7 +49,7 @@ export class ContactDatas extends React.Component {
 
   getAllData(props) {
     // console.log("row", props);
-    return { id: props.data.time };
+    return { id: props.key };
   }
 
   delete(row) {
@@ -84,7 +84,7 @@ export class ContactDatas extends React.Component {
 
     if (getsearch) {
       // const getsearch = e.target.value;
-      const searchdata = this.state.tableData.filter((item) => {
+      const searchdata = this.state.filterdatas.filter((item) => {
         // console.log("item", item);
         return (
           item.data.yourName.toLowerCase().includes(getsearch) ||

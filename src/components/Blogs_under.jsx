@@ -62,14 +62,14 @@ const Blogs_under = () => {
     const getAllData = (props) => {
       // console.log("row1231", props);
       return {
-        id: props.time,
+        id: props.key,
         data: {
-          author: props.author,
-          title: props.title,
-          carimg: props.carimg,
-          description: props.description,
-          date: props.date,
-          time: props.time,
+          author: props.data.author,
+          title: props.data.title,
+          carimg: props.data.carimg,
+          description: props.data.description,
+          date: props.data.date,
+          time: props.data.time,
         },
       };
     };
@@ -95,7 +95,7 @@ const Blogs_under = () => {
 
     if (getsearch) {
       // const getsearch = e.target.value;
-      const searchdata = tabledata.filter((item) => {
+      const searchdata = filterdata.filter((item) => {
         // console.log("item", item);
         return (
           item.data.author.toLowerCase().includes(getsearch) ||
@@ -283,7 +283,7 @@ const Blogs_under = () => {
                                 // username={row.data.currenttime}
                                 record={row.data}
                                 onClick={() => {
-                                  dele(row.data);
+                                  dele(row);
                                 }}
                               />
                             </div>

@@ -130,18 +130,20 @@ const Dashboard_under = () => {
 
     if (getsearch) {
       // const getsearch = e.target.value;
-      const searchdata = Tabledata.filter((item) => {
+      const searchdata = Filterdatas.filter((item) => {
         // console.log("item", item);
         return (
           item.data.firstname.toLowerCase().includes(getsearch) ||
           item.data.lastname.toLowerCase().includes(getsearch) ||
           item.data.deliverylocation.toLowerCase().includes(getsearch) ||
           item.data.pickuplocation.toLowerCase().includes(getsearch) ||
-          item.data.checkboxclick.toLowerCase().includes(getsearch) ||
-          item.data.radioValue.toLowerCase().includes(getsearch) ||
+          // item.data.checkboxclick.toLowerCase().includes(getsearch) ||
+          // item.data.radioValue.toLowerCase().includes(getsearch) ||
           item.data.carname.toLowerCase().includes(getsearch) ||
+          String(item?.data?.carprice)?.includes(getsearch) ||
           item.data.deliverydate.toLowerCase().includes(getsearch) ||
-          item.data.journeytime.toLowerCase().includes(getsearch) ||
+          item.data.returndate.toLowerCase().includes(getsearch) ||
+          // item.data.journeytime.toLowerCase().includes(getsearch) ||
           // item.data.date.toLowerCase().includes(getsearch) ||
           item.data.time.toLowerCase().includes(getsearch)
         );

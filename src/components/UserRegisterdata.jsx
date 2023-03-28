@@ -23,6 +23,7 @@ import {
 import img from "../Images/no data found.jpg";
 
 import { ErrorToast, SuccessToast } from "../helper/Toast";
+import { color } from "@mui/system";
 
 // export class RegisterData extends React.Component {
 //   constructor() {
@@ -231,7 +232,7 @@ const UserRegisterdata = () => {
 
   const getAllData = (props) => {
     console.log("row", props);
-    return { id: props.data.time };
+    return { id: props.key };
   };
 
   const Delete = (row) => {
@@ -257,8 +258,10 @@ const UserRegisterdata = () => {
 
     if (getsearch) {
       // const getsearch = e.target.value;
-      const searchdata = tabledata.filter((item) => {
+      const searchdata = filterdata.filter((item) => {
+        console.log("juhiljuhil");
         // console.log("item", item);
+
         return (
           item.data.firstname.toLowerCase().includes(getsearch) ||
           item.data.lastname.toLowerCase().includes(getsearch) ||
@@ -379,7 +382,7 @@ const UserRegisterdata = () => {
                   return (
                     <tr key={index + 1}>
                       {/* <td>{index + 1}</td> */}
-                      {/* <td
+                      <td
                         // onClick={() => {
                         //   opendescription(row);
                         // }}
@@ -389,16 +392,20 @@ const UserRegisterdata = () => {
                         <img
                           src={row?.data?.userimg}
                           style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginLeft: "20px",
                             width: 50,
                             height: 50,
-                            padding: 5,
+                            padding: 4,
                             borderRadius: 25,
-                            border: "2px solid var(--dark)",
+                            // border: "2px solid var(--dark)",
                             objectFit: "cover",
-                            background: "var(--light)",
+                            background: "#ffff",
                           }}
                         />
-                      </td> */}
+                      </td>
                       <td
                         className="name1"
                         role="button"

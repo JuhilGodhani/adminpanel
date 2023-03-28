@@ -34,20 +34,21 @@ export default class EditUserContact extends Component {
       mode: "",
       isOpen: false,
       record: {
-        firstname: props.record.firstname,
-        lastname: props.record.lastname,
-        email: props.record.email,
-        phonenumber: props.record.phonenumber,
-        deliverylocation: props.record.deliverylocation,
-        pickuplocation: props.record.pickuplocation,
-        deliverydate: props.record.deliverydate,
-        journeytime: props.record.journeytime,
-        msg: props.record.msg,
-        radioValue: props.record.radioValue,
-        checkboxclick: props.record.checkboxclick,
-        status: props.record.status,
-        date: props.record.date,
-        time: props.record.time,
+        firstname: props.record.data.firstname,
+        lastname: props.record.data.lastname,
+        email: props.record.data.email,
+        phonenumber: props.record.data.phonenumber,
+        deliverylocation: props.record.data.deliverylocation,
+        pickuplocation: props.record.data.pickuplocation,
+        deliverydate: props.record.data.deliverydate,
+        journeytime: props.record.data.journeytime,
+        msg: props.record.data.msg,
+        radioValue: props.record.data.radioValue,
+        checkboxclick: props.record.data.checkboxclick,
+        status: props.record.data.status,
+        date: props.record.data.date,
+        time: props.record.data.time,
+        key: props.record.key,
       },
       modfirstname: "",
       modlastname: "",
@@ -63,6 +64,7 @@ export default class EditUserContact extends Component {
       modstatus: "",
       moddate: "",
       modtime: "",
+      modkey: "",
     };
   }
   componentDidMount() {
@@ -469,6 +471,7 @@ export default class EditUserContact extends Component {
         modstatus: rec.status,
         moddate: rec.date,
         modtime: rec.time,
+        modkey: rec.key,
       });
     }
   }
@@ -481,7 +484,7 @@ export default class EditUserContact extends Component {
 
   getAllData() {
     return {
-      id: this.state.modtime,
+      id: this.state.modkey,
       // id:this.state.modusername,
 
       data: {

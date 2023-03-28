@@ -113,21 +113,21 @@ const Caritem_under = () => {
     const getAllData = (props) => {
       // console.log("row1231", props);
       return {
-        id: props.time,
+        id: props.key,
         data: {
-          carname: props.carname,
-          carmodel: props.carmodel,
-          carimg: props.carimg,
-          brandname: props.brandname,
-          price: props.price,
-          carspeed: props.carspeed,
-          cargps: props.cargps,
-          seattype: props.seattype,
-          automatic: props.automatic,
-          description: props.description,
-          carrating: props.carrating,
-          date: props.date,
-          time: props.time,
+          carname: props.data.carname,
+          carmodel: props.data.carmodel,
+          carimg: props.data.carimg,
+          brandname: props.data.brandname,
+          price: props.data.price,
+          carspeed: props.data.carspeed,
+          cargps: props.data.cargps,
+          seattype: props.data.seattype,
+          automatic: props.data.automatic,
+          description: props.data.description,
+          carrating: props.data.carrating,
+          date: props.data.date,
+          time: props.data.time,
         },
       };
     };
@@ -153,7 +153,7 @@ const Caritem_under = () => {
 
     if (getsearch) {
       // const getsearch = e.target.value;
-      const searchdata = tabledata.filter((item) => {
+      const searchdata = filterdata.filter((item) => {
         // console.log("item", item);
         return (
           item.data.carname.toLowerCase().includes(getsearch) ||
@@ -364,7 +364,7 @@ const Caritem_under = () => {
                                 // username={row.data.currenttime}
                                 record={row.data}
                                 onClick={() => {
-                                  dele(row.data);
+                                  dele(row);
                                 }}
                               />
                             </div>
