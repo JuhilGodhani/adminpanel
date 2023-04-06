@@ -29,7 +29,7 @@ import {
   Input,
 } from "reactstrap";
 import img from "../Images/no data found.jpg";
-
+import swal from "sweetalert";
 import { ErrorToast, SuccessToast } from "../helper/Toast";
 import { json } from "react-router-dom";
 
@@ -50,6 +50,25 @@ export class ContactDatas extends React.Component {
   getAllData(props) {
     // console.log("row", props);
     return { id: props.key };
+  }
+
+  delepop(row) {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        return this.delete(row);
+        // swal("Poof! Your imaginary file has been deleted!", {
+        //   icon: "success",
+        // });
+      } else {
+        swal("Your imaginary file is safe!");
+      }
+    });
   }
 
   delete(row) {
@@ -200,7 +219,7 @@ export class ContactDatas extends React.Component {
                                 <MdDelete
                                   // username={row.data.currenttime}
                                   // record={row.data}
-                                  onClick={() => this.delete(row)}
+                                  onClick={() => this.delepop(row)}
                                 />
                               </div>
                             </Col>

@@ -18,6 +18,7 @@ import {
   remove,
   child,
 } from "firebase/database";
+import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import img from "../Images/no data found.jpg";
 import { FaEdit } from "react-icons/fa";
@@ -55,6 +56,25 @@ const Blogs_under = () => {
     // console.log("row :>> ", row);
     setModal(true);
     setCardata(row.data);
+  };
+
+  const delepop = (row) => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        return dele(row);
+        // swal("Poof! Your imaginary file has been deleted!", {
+        //   icon: "success",
+        // });
+      } else {
+        swal("Your imaginary file is safe!");
+      }
+    });
   };
 
   const dele = (row) => {
@@ -238,11 +258,12 @@ const Blogs_under = () => {
                           style={{
                             width: 50,
                             height: 50,
-                            padding: 5,
+                            padding: 3,
                             borderRadius: 5,
-                            border: "2px solid var(--dark)",
+                            // border: "2px solid var(--dark)",
                             objectFit: "cover",
-                            background: "var(--light)",
+                            background: "#ffff",
+                            // background: "var(--light)",
                           }}
                         />
                       </td>
@@ -283,7 +304,7 @@ const Blogs_under = () => {
                                 // username={row.data.currenttime}
                                 record={row.data}
                                 onClick={() => {
-                                  dele(row);
+                                  delepop(row);
                                 }}
                               />
                             </div>

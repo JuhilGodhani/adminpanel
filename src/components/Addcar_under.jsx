@@ -197,6 +197,7 @@ function Addcar_under() {
             seattype: Addcardata.seattype,
             automatic: Addcardata.automatic,
             description: Addcardata.description,
+            status: "Rental",
             // carrating: Addcardata.carrating,
             cartype: Addcardata.cartype,
             date: currentdate,

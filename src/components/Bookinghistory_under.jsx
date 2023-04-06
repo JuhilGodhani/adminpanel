@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Style/contactdata.css";
+import swal from "sweetalert";
+
 import { TbBrandBooking } from "react-icons/tb";
 import { MdContactMail } from "react-icons/md";
 import { dbs } from "../Admin/userfirebase/userfirebase";
@@ -86,6 +88,24 @@ const Bookinghistory_under = () => {
     return { id: props.data.time };
   };
 
+  const delepop = (row) => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        return Delete(row);
+        // swal("Poof! Your imaginary file has been deleted!", {
+        //   icon: "success",
+        // });
+      } else {
+        swal("Your imaginary file is safe!");
+      }
+    });
+  };
   const Delete = (row) => {
     const dbref = ref(dbs);
     // console.log("first");
@@ -107,14 +127,59 @@ const Bookinghistory_under = () => {
     const getsearch = e.target.value;
     // console.log("juhil", getsearch);
 
-    if (getsearch) {
-      // const getsearch = e.target.value;
-      const searchdata = filterdata.filter((item) => {
-        // console.log("item", item);
+    let searchdata;
+    // if (usersele) {
+    if (usersele && getsearch) {
+      searchdata = tabledata.filter((item) => {
         return (
           item.data.firstname.toLowerCase().includes(getsearch) ||
           item.data.lastname.toLowerCase().includes(getsearch) ||
+          // item.data.orderno.toLowerCase().includes(getsearch) ||
           item.data.orderno.toLowerCase().includes(getsearch) ||
+          item.data.deliverylocation.toLowerCase().includes(getsearch) ||
+          item.data.pickuplocation.toLowerCase().includes(getsearch) ||
+          item.data.deliverydate.toLowerCase().includes(getsearch) ||
+          item.data.returndate.toLowerCase().includes(getsearch) ||
+          // item.data.journeytime.toLowerCase().includes(getsearch) ||
+          String(item?.data?.carprice)?.includes(getsearch) ||
+          item.data.date.toLowerCase().includes(getsearch) ||
+          item.data.carname.toLowerCase().includes(getsearch) ||
+          item.data.status.toLowerCase().includes(getsearch)
+        );
+      });
+      let searchdata1 = filterdata.filter((row) => {
+        if (
+          getsearch === row.data.firstname ||
+          getsearch === row.data.lastname ||
+          getsearch === row.data.orderno ||
+          getsearch === row.data.deliverylocation ||
+          getsearch === row.data.pickuplocation ||
+          getsearch === row.data.returndate ||
+          getsearch === row.data.deliverydate ||
+          getsearch === String(row.data.carprice) ||
+          getsearch === row.data.carname ||
+          getsearch === row.data.status ||
+          getsearch === row.data.date
+        ) {
+          return row;
+        }
+      });
+      setcardata(searchdata1);
+    } else if (!getsearch && usersele) {
+      console.log("getsearch khali :>> ");
+
+      setcardata(filterdata);
+      searchdata = filterdata.filter((row) => {
+        if (row.data.status === usersele) {
+          return row;
+        }
+      });
+    } else if (getsearch) {
+      searchdata = filterdata.filter((item) => {
+        return (
+          item.data.firstname.toLowerCase().includes(getsearch) ||
+          item.data.lastname.toLowerCase().includes(getsearch) ||
+          // item.data.orderno.toLowerCase().includes(getsearch) ||
           item.data.orderno.toLowerCase().includes(getsearch) ||
           item.data.deliverylocation.toLowerCase().includes(getsearch) ||
           item.data.pickuplocation.toLowerCase().includes(getsearch) ||
@@ -127,14 +192,84 @@ const Bookinghistory_under = () => {
           item.data.status.toLowerCase().includes(getsearch)
         );
       });
-      settabledata(searchdata);
-      // this.setState({ tableData: searchdata });
+      setcardata(searchdata);
     } else {
-      settabledata(filterdata);
-      // this.setState({ tableData: this.state.filterdatas });
+      searchdata = filterdata.filter((item) => {
+        return (
+          item.data.firstname.toLowerCase().includes(getsearch) ||
+          item.data.lastname.toLowerCase().includes(getsearch) ||
+          // item.data.orderno.toLowerCase().includes(getsearch) ||
+          item.data.orderno.toLowerCase().includes(getsearch) ||
+          item.data.deliverylocation.toLowerCase().includes(getsearch) ||
+          item.data.pickuplocation.toLowerCase().includes(getsearch) ||
+          item.data.deliverydate.toLowerCase().includes(getsearch) ||
+          // item.data.journeytime.toLowerCase().includes(getsearch) ||
+          String(item?.data?.carprice)?.includes(getsearch) ||
+          item.data.date.toLowerCase().includes(getsearch) ||
+          item.data.carname.toLowerCase().includes(getsearch) ||
+          item.data.checkboxclick.toLowerCase().includes(getsearch) ||
+          item.data.status.toLowerCase().includes(getsearch)
+        );
+      });
     }
+    // } else {
+    //   if (getsearch) {
+    //     searchdata = filterdata.filter((item) => {
+    //       return (
+    //         item.data.firstname.toLowerCase().includes(getsearch) ||
+    //         item.data.lastname.toLowerCase().includes(getsearch) ||
+    //         // item.data.orderno.toLowerCase().includes(getsearch) ||
+    //         item.data.orderno.toLowerCase().includes(getsearch) ||
+    //         item.data.deliverylocation.toLowerCase().includes(getsearch) ||
+    //         item.data.pickuplocation.toLowerCase().includes(getsearch) ||
+    //         item.data.deliverydate.toLowerCase().includes(getsearch) ||
+    //         // item.data.journeytime.toLowerCase().includes(getsearch) ||
+    //         String(item?.data?.carprice)?.includes(getsearch) ||
+    //         item.data.date.toLowerCase().includes(getsearch) ||
+    //         item.data.carname.toLowerCase().includes(getsearch) ||
+    //         item.data.checkboxclick.toLowerCase().includes(getsearch) ||
+    //         item.data.status.toLowerCase().includes(getsearch)
+    //       );
+    //     });
+    //     setcardata(searchdata);
+    //     // this.setState({ cardata: searchdata });
+    //   } else {
+    //     searchdata = filterdata.filter((row) => {
+    //       return row;
+    //     });
+    //   }
+    settabledata(searchdata);
     setquery(getsearch);
-    // this.setState({ query: getsearch });
+    // }
+    //============================================================================================
+    // if (getsearch) {
+    //   // const getsearch = e.target.value;
+    //   const searchdata = filterdata.filter((item) => {
+    //     // console.log("item", item);
+    //     return (
+    //       item.data.firstname.toLowerCase().includes(getsearch) ||
+    //       item.data.lastname.toLowerCase().includes(getsearch) ||
+    //       item.data.orderno.toLowerCase().includes(getsearch) ||
+    //       item.data.orderno.toLowerCase().includes(getsearch) ||
+    //       item.data.deliverylocation.toLowerCase().includes(getsearch) ||
+    //       item.data.pickuplocation.toLowerCase().includes(getsearch) ||
+    //       item.data.deliverydate.toLowerCase().includes(getsearch) ||
+    //       // item.data.journeytime.toLowerCase().includes(getsearch) ||
+    //       String(item?.data?.carprice)?.includes(getsearch) ||
+    //       item.data.date.toLowerCase().includes(getsearch) ||
+    //       item.data.carname.toLowerCase().includes(getsearch) ||
+    //       item.data.checkboxclick.toLowerCase().includes(getsearch) ||
+    //       item.data.status.toLowerCase().includes(getsearch)
+    //     );
+    //   });
+    //   settabledata(searchdata);
+    //   // this.setState({ tableData: searchdata });
+    // } else {
+    //   settabledata(filterdata);
+    //   // this.setState({ tableData: this.state.filterdatas });
+    // }
+    // setquery(getsearch);
+    // // this.setState({ query: getsearch });
   };
   useEffect(() => {
     const regidata = JSON.parse(localStorage.getItem("regidata"));
@@ -305,7 +440,7 @@ const Bookinghistory_under = () => {
                                 // username={row.data.currenttime}
                                 // record={row.data}
                                 onClick={() => {
-                                  Delete(row);
+                                  delepop(row);
                                 }}
                               />
                             </div>

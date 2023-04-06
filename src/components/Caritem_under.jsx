@@ -18,6 +18,7 @@ import {
   remove,
   child,
 } from "firebase/database";
+import swal from "sweetalert";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 // import { Select, MenuItem } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
@@ -48,6 +49,7 @@ const Caritem_under = () => {
   const [tabledata, settabledata] = useState([]);
   const [modal, setModal] = useState(false);
   const [Cardata, setCardata] = useState("");
+  const [bookingdetail, setbookingdetail] = useState([]);
   const [filterdata, setfilterdata] = useState([]);
   const [query, setquery] = useState("");
   const [usersele, setUsersele] = useState("");
@@ -108,6 +110,25 @@ const Caritem_under = () => {
     }
   };
 
+  const delepop = (row) => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        return dele(row);
+        // swal("Poof! Your imaginary file has been deleted!", {
+        //   icon: "success",
+        // });
+      } else {
+        swal("Your imaginary file is safe!");
+      }
+    });
+  };
+
   const dele = (row) => {
     console.log("rowdsfjnm :>> ", row);
     const getAllData = (props) => {
@@ -151,28 +172,147 @@ const Caritem_under = () => {
     const getsearch = e.target.value;
     // console.log("juhil", getsearch);
 
-    if (getsearch) {
-      // const getsearch = e.target.value;
-      const searchdata = filterdata.filter((item) => {
-        // console.log("item", item);
+    let searchdata;
+    // console.log(usersele, cardata);
+
+    // if (usersele) {
+    if (usersele && getsearch) {
+      // console.log("item");
+      searchdata = tabledata.filter((item) => {
         return (
           item.data.carname.toLowerCase().includes(getsearch) ||
-          item.data.brandname.toLowerCase().includes(getsearch) ||
+          // item.data.status.toLowerCase().includes(getsearch) ||
           item.data.carmodel.toLowerCase().includes(getsearch) ||
           item.data.carspeed.toLowerCase().includes(getsearch) ||
           item.data.date.toLowerCase().includes(getsearch) ||
           item.data.price.toLowerCase().includes(getsearch)
         );
       });
-      settabledata(searchdata);
-      // this.setState({ tableData: searchdata });
+      let searchdata1 = filterdata.filter((row) => {
+        if (
+          // getsearch === row.data.status ||
+          getsearch === row.data.carname ||
+          getsearch === row.data.carmodel ||
+          getsearch === row.data.carspeed ||
+          getsearch === row.data.date ||
+          getsearch === row.data.price
+        ) {
+          return row;
+        }
+      });
+      setcardata(searchdata1);
+      // console.log(searchdata);
+    } else if (usersele && !getsearch) {
+      // console.log("item1");
+      setcardata(filterdata);
+      searchdata = filterdata.filter((row) => {
+        if (row.data.cartype === usersele) {
+          return row;
+        }
+      });
+    } else if (getsearch) {
+      // console.log("item2");
+      searchdata = filterdata.filter((item) => {
+        // console.log("item", item);
+        return (
+          item.data.carname.toLowerCase().includes(getsearch) ||
+          // item.data.status.toLowerCase().includes(getsearch) ||
+          item.data.carmodel.toLowerCase().includes(getsearch) ||
+          item.data.carspeed.toLowerCase().includes(getsearch) ||
+          item.data.date.toLowerCase().includes(getsearch) ||
+          item.data.price.toLowerCase().includes(getsearch)
+        );
+      });
+      setcardata(searchdata);
     } else {
-      settabledata(filterdata);
-      // this.setState({ tableData: this.state.filterdatas });
+      // console.log("item3");
+      searchdata = filterdata.filter((item) => {
+        // console.log("item", item);
+        return (
+          item.data.carname.toLowerCase().includes(getsearch) ||
+          // item.data.status.toLowerCase().includes(getsearch) ||
+          item.data.carmodel.toLowerCase().includes(getsearch) ||
+          item.data.carspeed.toLowerCase().includes(getsearch) ||
+          item.data.date.toLowerCase().includes(getsearch) ||
+          item.data.price.toLowerCase().includes(getsearch)
+        );
+      });
     }
+    // }
+    // else {
+    //   if (getsearch) {
+    //     searchdata = filterdata.filter((item) => {
+    //       console.log("juhil1");
+    //       return (
+    //         item.data.carname.toLowerCase().includes(getsearch) ||
+    //         item.data.brandname.toLowerCase().includes(getsearch) ||
+    //         item.data.carmodel.toLowerCase().includes(getsearch) ||
+    //         item.data.carspeed.toLowerCase().includes(getsearch) ||
+    //         item.data.date.toLowerCase().includes(getsearch) ||
+    //         item.data.price.toLowerCase().includes(getsearch)
+    //       );
+    //     });
+    //     setcardata(searchdata);
+    //   }
+    //   //===========================================================================
+    //   // else if (!getsearch && usersele) {
+    //   //   console.log("juhil2");
+    //   //   searchdata = tabledata.filter((row) => {
+    //   //     if (row.data.cartype === usersele) {
+    //   //       console.log("juhil3");
+    //   //       console.log("juhilfilter :>> ", filterdata);
+    //   //       return row;
+    //   //     }
+    //   //     setcardata(filterdata);
+    //   //   });
+    //   // }
+    //   //===========================================================================
+    //   // else if (!usersele || usersele === "none") {
+    //   //   console.log("juhil4");
+    //   //   searchdata = filterdata.filter((row) => {
+    //   //     return row;
+    //   //   });
+    //   // } else if (!getsearch && usersele === "none") {
+    //   //   console.log("juhil5");
+
+    //   //   console.log("juhilnone :>> ");
+    //   //   setcardata(filterdata);
+    //   // }
+    //   else {
+    //     console.log("juhil6");
+    //     // setcardata(filterdata);
+    //     searchdata = filterdata.filter((row) => {
+    //       return row;
+    //     });
+    //     // settabledata(filterdata);
+    //   }
+    // }
+
+    //======================================================================================================
+
+    //======================================================================================================
+
+    // if (getsearch) {
+    //   // const getsearch = e.target.value;
+    //   settabledata(searchdata);
+    //   // this.setState({ tableData: searchdata });
+    //   // setcardata(searchdata);
+    // } else {
+    settabledata(searchdata);
+    // this.setState({ tableData: this.state.filterdatas });
+    // }
     setquery(getsearch);
     // this.setState({ query: getsearch });
   };
+
+  // const carupdatedetail = () => {
+  //   let bookingdata = bookingdetail.filter((row) => {
+  //     if (new Date(row.data.returndate) <= new Date()) {
+  //       return row;
+  //     }
+  //   });
+  //   console.log("bookindata", bookingdata);
+  // };
 
   useEffect(() => {
     const dbRef = ref(dbs, "cardata");
@@ -183,7 +323,7 @@ const Caritem_under = () => {
         let data = childSnapShot.val();
         records.push({ key: keyName, data: data });
       });
-      // console.log("records :>> ", records);
+
       setcardata(records);
       settabledata(records);
       setfilterdata(records);
@@ -198,6 +338,7 @@ const Caritem_under = () => {
     //   });
     // });
     //=================***impotent***=====================//
+    // carupdatedetail();
   }, []);
 
   return (
@@ -289,8 +430,9 @@ const Caritem_under = () => {
                 {/* <th>Email</th> */}
                 {/* <th>Phone Number</th> */}
                 {/* <th>Car Id</th> */}
-                <th>Brand</th>
+                {/* <th>Brand</th> */}
                 <th>Model</th>
+                {/* <th>Status</th> */}
                 <th>Car Speed</th>
                 {/* <th>Departure Time</th> */}
                 {/* <th>Other Details</th> */}
@@ -319,17 +461,29 @@ const Caritem_under = () => {
                           style={{
                             width: 50,
                             height: 50,
-                            padding: 5,
+                            padding: 3,
                             borderRadius: 5,
-                            border: "2px solid var(--dark)",
+                            // border: "2px solid var(--dark)",
                             objectFit: "cover",
-                            background: "var(--light)",
+                            // background: "var(--light)",
+                            background: "#ffff",
                           }}
                         />
                       </td>
                       <td className="name1">{row.data.carname}</td>
-                      <td className="name1">{row.data.brandname}</td>
+                      {/* <td className="name1">{row.data.brandname}</td> */}
                       <td className="name1">{row.data.carmodel}</td>
+                      {/* <td
+                        className="name1"
+                        style={{
+                          color:
+                            row.data.status === "Rental"
+                              ? "var(--lightblue)"
+                              : "var(--red)",
+                        }}
+                      >
+                        {row.data.status}
+                      </td> */}
                       <td className="name1">{row.data.carspeed} kmph</td>
                       <td
                         className="name1 clihe"
@@ -364,7 +518,7 @@ const Caritem_under = () => {
                                 // username={row.data.currenttime}
                                 record={row.data}
                                 onClick={() => {
-                                  dele(row);
+                                  delepop(row);
                                 }}
                               />
                             </div>
@@ -409,6 +563,18 @@ const Caritem_under = () => {
                 <div className="setimg">
                   <img className="setimg_under" src={Cardata.carimg} />
                 </div>
+                <Row className="alltxt">
+                  <Col lg="2" className="sameque">
+                    Brand
+                  </Col>
+                  <Col lg="1" className="sameque">
+                    :
+                  </Col>
+                  <Col lg="8" className="sameans">
+                    {/* {this.state.modcarid} */}
+                    {Cardata.brandname}
+                  </Col>
+                </Row>
                 <Row className="alltxt">
                   <Col lg="2" className="sameque">
                     Car Type

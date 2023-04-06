@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import Dashboard_under from "../components/Dashboard_under";
 import Adminrouters from "../routes/Adminrouters";
-import { UserBookingFormdata } from "../components/BookingFormData";
+// import { UserBookingFormdata } from "../components/BookingFormData";
 // import { RegisterData } from "../components/UserRegisterdata";
 import UserRegisterdata from "../components/UserRegisterdata";
 import { UserLogindata } from "../components/UserLogindata";

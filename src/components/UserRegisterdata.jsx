@@ -21,7 +21,7 @@ import {
   remove,
 } from "firebase/database";
 import img from "../Images/no data found.jpg";
-
+import swal from "sweetalert";
 import { ErrorToast, SuccessToast } from "../helper/Toast";
 import { color } from "@mui/system";
 
@@ -235,6 +235,25 @@ const UserRegisterdata = () => {
     return { id: props.key };
   };
 
+  const delepop = (row) => {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        return Delete(row);
+        // swal("Poof! Your imaginary file has been deleted!", {
+        //   icon: "success",
+        // });
+      } else {
+        swal("Your imaginary file is safe!");
+      }
+    });
+  };
+
   const Delete = (row) => {
     const dbref = ref(dbs);
     // console.log("first");
@@ -256,12 +275,10 @@ const UserRegisterdata = () => {
     const getsearch = e.target.value;
     // console.log("juhil", getsearch);
 
-    if (getsearch) {
-      // const getsearch = e.target.value;
-      const searchdata = filterdata.filter((item) => {
-        console.log("juhiljuhil");
-        // console.log("item", item);
-
+    let searchdata;
+    // if (usersele) {
+    if (usersele && getsearch) {
+      searchdata = tabledata.filter((item) => {
         return (
           item.data.firstname.toLowerCase().includes(getsearch) ||
           item.data.lastname.toLowerCase().includes(getsearch) ||
@@ -272,16 +289,79 @@ const UserRegisterdata = () => {
           item.data.time.toLowerCase().includes(getsearch)
         );
       });
-      settabledata(searchdata);
-      // this.setState({ tableData: searchdata });
-    } else {
-      settabledata(filterdata);
-      // this.setState({ tableData: this.state.filterdatas });
-    }
-    setquery(getsearch);
-    // this.setState({ query: getsearch });
-  };
+      let searchdata1 = filterdata.filter((row) => {
+        if (
+          getsearch === row.data.firstname ||
+          getsearch === row.data.lastname ||
+          getsearch === row.data.email ||
+          getsearch === row.data.gender ||
+          getsearch === row.data.phonenumber ||
+          getsearch === row.data.time ||
+          getsearch === row.data.date
+        ) {
+          return row;
+        }
+      });
+      setcardata(searchdata1);
+    } else if (!getsearch && usersele) {
+      console.log("getsearch khali :>> ");
 
+      setcardata(filterdata);
+      searchdata = filterdata.filter((row) => {
+        if (row.data.gender === usersele) {
+          return row;
+        }
+      });
+    } else if (getsearch) {
+      searchdata = filterdata.filter((item) => {
+        return (
+          item.data.firstname.toLowerCase().includes(getsearch) ||
+          item.data.lastname.toLowerCase().includes(getsearch) ||
+          item.data.email.toLowerCase().includes(getsearch) ||
+          item.data.gender.toLowerCase().includes(getsearch) ||
+          item.data.phonenumber.toLowerCase().includes(getsearch) ||
+          item.data.date.toLowerCase().includes(getsearch) ||
+          item.data.time.toLowerCase().includes(getsearch)
+        );
+      });
+      setcardata(searchdata);
+    } else {
+      searchdata = filterdata.filter((item) => {
+        return (
+          item.data.firstname.toLowerCase().includes(getsearch) ||
+          item.data.lastname.toLowerCase().includes(getsearch) ||
+          item.data.email.toLowerCase().includes(getsearch) ||
+          item.data.gender.toLowerCase().includes(getsearch) ||
+          item.data.phonenumber.toLowerCase().includes(getsearch) ||
+          item.data.date.toLowerCase().includes(getsearch) ||
+          item.data.time.toLowerCase().includes(getsearch)
+        );
+      });
+    }
+    // } else {
+    //   if (getsearch) {
+    //     searchdata = filterdata.filter((item) => {
+    //       return (
+    //         item.data.firstname.toLowerCase().includes(getsearch) ||
+    //         item.data.lastname.toLowerCase().includes(getsearch) ||
+    //         item.data.email.toLowerCase().includes(getsearch) ||
+    //         item.data.gender.toLowerCase().includes(getsearch) ||
+    //         item.data.phonenumber.toLowerCase().includes(getsearch) ||
+    //         item.data.date.toLowerCase().includes(getsearch) ||
+    //         item.data.time.toLowerCase().includes(getsearch)
+    //       );
+    //     });
+    //     setcardata(searchdata);
+    //     // this.setState({ cardata: searchdata });
+    //   } else {
+    //     searchdata = filterdata.filter((row) => {
+    //       return row;
+    //     });
+    //   }
+    settabledata(searchdata);
+    setquery(getsearch);
+    // }
+  };
   const setlocalstorage = (row) => {
     console.log("rowdsc :>> ", row);
     localStorage.setItem("regidata", JSON.stringify(row.data));
@@ -431,7 +511,7 @@ const UserRegisterdata = () => {
                                 // username={row.data.currenttime}
                                 // record={row.data}
                                 onClick={() => {
-                                  Delete(row);
+                                  delepop(row);
                                 }}
                               />
                             </div>
